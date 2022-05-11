@@ -12,17 +12,16 @@ import Home from "./HomeComponent";
 import Contact from "./ContactComponent";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import DishDetail from "./DishdetailComponent";
 const mapStateToProps = (state) => {
   return {
     dishes: state.dishes,
-
     comments: state.comments,
-
     promotions: state.promotions,
-
     leaders: state.leaders,
   };
 };
+
 class Main extends Component {
   constructor(props) {
     super(props);
@@ -50,6 +49,15 @@ class Main extends Component {
         />
       );
     };
+    const DishWithId = ({ match }) => {
+      return (
+        <DishDetail
+          comments={this.props.comments}
+          dishes={this.props.dishes}
+          selectedDish={match.params.dishId}
+        />
+      );
+    };
 
     return (
       <div>
@@ -67,12 +75,13 @@ class Main extends Component {
             component={() => (
               <Menu
                 dishes={this.props.dishes}
-                onClick={this.onDishSelect}
-                selectedDish={this.props.selectedDish}
-                comments={this.props.comments}
+                // onClick={this.onDishSelect}
+                // selectedDish={this.props.selectedDish}
+                // comments={this.props.comments}
               />
             )}
           />
+          <Route path="/menu/:dishId" component={DishWithId} />
           <Route exact path="/contactus" component={Contact} />
           <Redirect to="/home" />
         </Switch>
